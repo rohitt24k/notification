@@ -8,7 +8,6 @@ import { Card } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { useAppSelector } from "@/lib/hooks";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import socketManager from "@/lib/utils/socketInstance";
@@ -95,6 +94,7 @@ export default function Component() {
             socketManager.emit("pingAll", "");
           }}
           className="mb-8 "
+          disabled={users.length === 0}
         >
           Send notification to all
         </Button>

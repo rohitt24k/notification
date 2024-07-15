@@ -13,15 +13,21 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import axiosInstance from "@/lib/utils/axiosInstance";
 import axios from "axios";
+import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function LoginForm() {
   const { toast } = useToast();
   const router = useRouter();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   async function handleUserLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setIsLoading(true);
+
     try {
       const form = e.target as HTMLFormElement;
       const email = (form.elements.namedItem("email") as HTMLInputElement)
@@ -49,6 +55,8 @@ export default function LoginForm() {
           description: error.response?.data?.error,
         });
       }
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -80,7 +88,9 @@ export default function LoginForm() {
               required
             />
           </div>
-          <Button className="w-full">Sign in</Button>
+          <Button className="w-full" disabled={isLoading}>
+            {isLoading ? <Loader2 className=" animate-spin" /> : "Sign in"}
+          </Button>
         </CardContent>
       </form>
       <CardFooter className=" justify-center mt-2">

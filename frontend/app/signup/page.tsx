@@ -13,20 +13,22 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React from "react";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import React, { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import axiosInstance from "@/lib/utils/axiosInstance";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { Loader, Loader2 } from "lucide-react";
 
 export default function LoginForm() {
-  const user = useAppSelector((state) => state.user);
   const { toast } = useToast();
   const router = useRouter();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   async function handleSignup(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const form = e.target as HTMLFormElement;
       const firstName = (
@@ -66,6 +68,8 @@ export default function LoginForm() {
         title: "Signup failed",
         description: "An error occurred while signing up",
       });
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -103,8 +107,12 @@ export default function LoginForm() {
               <Label htmlFor="password">Password</Label>
               <Input id="password" type="password" />
             </div>
-            <Button type="submit" className="w-full">
-              Create an account
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? (
+                <Loader2 className=" animate-spin" />
+              ) : (
+                "Create an account"
+              )}
             </Button>
           </div>
         </CardContent>
@@ -113,7 +121,7 @@ export default function LoginForm() {
         <div className="text-center text-sm">
           Already have an account?{" "}
           <Link href="/login" className="underline">
-            Sign in
+            Login
           </Link>
         </div>
       </CardFooter>

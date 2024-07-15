@@ -5,7 +5,6 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/ui/theme-toggle";
-import StoreProvider from "./StoreProvider";
 import { useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter, usePathname } from "next/navigation";
@@ -67,17 +66,15 @@ export default function Layout({ children }: RootLayoutProps) {
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
-          <StoreProvider>
-            <header className=" ml-auto px-8 py-8">
-              <ModeToggle />
-            </header>
-            <main className=" flex-1 grid place-items-center">{children}</main>
-            <Toaster />
-          </StoreProvider>
+          <header className=" ml-auto px-8 py-8">
+            <ModeToggle />
+          </header>
+          <main className=" flex-1 grid place-items-center">{children}</main>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

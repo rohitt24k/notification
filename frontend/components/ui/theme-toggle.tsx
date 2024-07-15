@@ -9,7 +9,7 @@ import { Button } from "./button";
 
 export function ModeToggle() {
   const { setTheme } = useTheme();
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const toggleDarkMode = () => {
     setIsDarkMode((prevMode) => !prevMode);
     if (isDarkMode) {
